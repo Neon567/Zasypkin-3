@@ -1,0 +1,55 @@
+// Функции для демонстрации задач
+function showDate() {
+  document.getElementById('result').textContent = new Date().toLocaleDateString('ru-RU');
+}
+
+function multiplyNumbers() {
+  let num1 = Math.floor(Math.random() * 51);
+  let num2 = Math.floor(Math.random() * 51);
+  document.getElementById('result').textContent = `Произведение: ${num1 * num2}`;
+}
+
+// Массив вопросов и ответов
+const questions = [
+  { question: 'Что такое JavaScript?', answer: 'язык программирования' },
+  // Добавьте остальные вопросы здесь
+];
+
+// Функция для начала теста
+function startTest() {
+  let score = 0;
+  let userAnswers = [];
+  questions.forEach((item, index) => {
+    let userAnswer = prompt(item.question);
+    userAnswers.push({ question: item.question, userAnswer, correct: item.answer === userAnswer });
+    if (item.answer === userAnswer) score++;
+  });
+  showResults(score, userAnswers);
+}
+
+// Функция для отображения результатов
+function showResults(score, userAnswers) {
+  let resultHTML = `<h3>Ваш результат: ${score} из ${questions.length}</h3>`;
+  userAnswers.forEach(answer => {
+    resultHTML += `<p>${answer.question} <br> Ваш ответ: ${answer.userAnswer} - ${answer.correct ? 'Верно' : 'Неверно'}</p>`;
+  });
+  document.getElementById('result').innerHTML = resultHTML;
+}
+
+// Запрос имени пользователя и сохранение в localStorage
+let userName = prompt('Как вас зовут?');
+localStorage.setItem('userName', userName);
+
+// Функция для отображения заставки
+function showSplashScreen() {
+  let splashScreen = document.getElementById('splashScreen');
+  splashScreen.classList.remove('hidden');
+  splashScreen.style = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; align-items: center;';
+  document.getElementById('dateDisplay').textContent = `Сегодня: ${new Date().toLocaleDateString('ru-RU')}`;
+  document.getElementById('userNameDisplay').textContent = `Привет, ${localStorage.getItem('userName') || 'Гость'}`;
+}
+
+// Скрытие заставки
+document.getElementById('splashScreen').addEventListener('click', function() {
+  this.classList.add('hidden');
+});
